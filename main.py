@@ -67,12 +67,13 @@ async def generate_post(message: types.Message):
 {all_text}
 """
 
-    try:
+       try:
         completion = client.chat.completions.create(
-            model="llama-3.1-70b-versatile",
+            model="llama-3.3-70b-versatile",
             messages=[{"role": "user", "content": prompt}],
             temperature=0.7,
-            max_tokens=800
+            max_tokens=800,
+            top_p=0.95
         )
         post = completion.choices[0].message.content.strip()
 
