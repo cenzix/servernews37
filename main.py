@@ -13,8 +13,14 @@ BOT_TOKEN = os.getenv("BOT_TOKEN")
 GROQ_API_KEY = os.getenv("GROQ_API_KEY")
 REVIEW_GROUP_ID = int(os.getenv("REVIEW_GROUP_ID"))
 
+# === ID чатов, откуда бот будет собирать сообщения ===
+# Перечислите ID ваших исходных групп/каналов через запятую.
+# Числа должны быть отрицательными (начинаться с -100, если это группы).
 SOURCE_CHAT_IDS = [
-    int(x) for x in os.getenv("SOURCE_CHAT_IDS", "").split(",") if x.strip()
+    -1004476147854,  # Источник 1
+    -1004441092241,  # Источник 2
+    -1004451757944,  # Источник 3
+    -1003836599844   # Источник 4
 ]
 
 MAX_MESSAGES = 40
