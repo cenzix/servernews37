@@ -15,12 +15,11 @@ REVIEW_GROUP_ID = int(os.getenv("REVIEW_GROUP_ID"))
 
 # === ID чатов, откуда бот будет собирать сообщения ===
 # Перечислите ID ваших исходных групп/каналов через запятую.
-# Числа должны быть отрицательными (начинаться с -100, если это группы).
 SOURCE_CHAT_IDS = [
-    -1004476147854,  # Источник 1
-    -1004441092241,  # Источник 2
-    -1004451757944,  # Источник 3
-    -1003833659044   # Источник 4
+    -1004476147854,
+    -1004441092241,
+    -1004451757944,
+    -1003833659044
 ]
 
 MAX_MESSAGES = 40
@@ -67,7 +66,7 @@ async def generate_post(message: types.Message):
 {all_text}
 """
 
-       try:
+    try:
         completion = client.chat.completions.create(
             model="llama-3.3-70b-versatile",
             messages=[{"role": "user", "content": prompt}],
