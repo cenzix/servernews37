@@ -68,7 +68,7 @@ async def generate_post(message: types.Message):
 
     try:
         completion = client.chat.completions.create(
-            model="gemma-2-9b-it",
+            model="openai/gpt-oss-20b",
             messages=[{"role": "user", "content": prompt}],
             temperature=0.7,
             max_tokens=800,
