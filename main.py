@@ -87,6 +87,13 @@ async def generate_post(message: types.Message):
 async def status(message: types.Message):
     await message.answer(f"Сейчас в памяти {len(messages_storage)} сообщений.")
 
+@dp.message(Command("clear"))
+async def clear_messages(message: types.Message):
+    if message.chat.id != REVIEW_GROUP_ID:
+        return await message.answer("Эту команду можно использовать только в группе оценки.")
+    
+    messages_storage.clear()
+    await message.answer("Память очищена. Теперь бот забыл все предыдущие сообщения.")
 async def main():
     print("Бот запущен!")
     await dp.start_polling(bot)
