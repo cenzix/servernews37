@@ -34,22 +34,20 @@ async def describe_photo(file_id: str) -> str:
     try:
         file = await bot.get_file(file_id)
         file_path = file.file_path
-        
-        # Скачиваем файл
         file_bytes = await bot.download_file(file_path)
         image_data = file_bytes.read()
-        
-        # Кодируем в base64
         base64_image = base64.b64encode(image_data).decode("utf-8")
-        
-        # Отправляем на vision-модель
+
         completion = client.chat.completions.create(
             model="meta-llama/llama-4-scout-17b-16e-instruct",
             messages=[
                 {
                     "role": "user",
                     "content": [
-                        {"type": "text", "text": "Кратко опиши, что изображено на этом фото. Ответь на русском, 1-2 предложения."},
+                        {
+                            "type": "text",
+                            "text": "Кратко опиши, что изображено на этом фото. Ответь на русском, 1-2 предложения."
+                        },
                         {
                             "type": "image_url",
                             "image_url": {
@@ -74,19 +72,17 @@ async def collect_messages(message: types.Message):
 
     if message.text:
         text_to_save = f"{user_name}: {message.text}"
-    
+
     elif message.photo:
-        # Берём самое большое фото
         photo = message.photo[-1]
         caption = message.caption or ""
-        
         description = await describe_photo(photo.file_id)
-        
+
         if caption:
             text_to_save = f"{user_name}: [ФОТО] {description} | Подпись: {caption}"
         else:
             text_to_save = f"{user_name}: [ФОТО] {description}"
-    
+
     elif message.caption:
         text_to_save = f"{user_name}: [МЕДИА] {message.caption}"
 
@@ -127,7 +123,7 @@ async def generate_post(message: types.Message):
 
     try:
         completion = client.chat.completions.create(
-            model="llama-3.1-8b-instant",
+            model="openai/gpt-oss-20b",
             messages=[{"role": "user", "content": prompt}],
             temperature=0.7,
             max_tokens=800
